@@ -1,0 +1,10 @@
+:NAME homebrew_rpx_loader
+
+:TEXT
+RL_LoadFromSDOnNextLaunch
+RL_MountBundle
+RL_UnmountBundle
+RL_FileOpen
+RL_FileRead
+RL_FileClose
+RL_FileExists
