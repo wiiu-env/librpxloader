@@ -91,6 +91,25 @@ int32_t RL_FileClose(uint32_t handle);
  */
 bool RL_FileExists(const char *name);
 
+/**
+ * Redirects /vol/content to a given path.
+ * If the application requests a file that is not present in the new path, 
+ * it'll fallback to the original /vol/content.
+ *
+ * example: RL_RedirectContentWithFallback("fs:/vol/external01/sdcafiine/0005000010145000/content");
+ *
+ * @param pathToContent The path /vol/content should be redirected to.
+ * @return true if the given path is valid and can be used, false on error.
+ */
+bool RL_RedirectContentWithFallback(const char *pathToContent);
+
+/**
+ * Disables the /vol/content redirection 
+ *
+ * @return true if /vol/content was previously redirected
+ */
+bool RL_DisableContentRedirection();
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

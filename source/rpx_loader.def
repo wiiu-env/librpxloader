@@ -8,3 +8,5 @@ RL_FileOpen
 RL_FileRead
 RL_FileClose
 RL_FileExists
+RL_RedirectContentWithFallback
+RL_DisableContentRedirection
