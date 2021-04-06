@@ -5,6 +5,8 @@ extern "C"
 {
 #endif
 
+#include <stdint.h>
+
 typedef enum {
     BundleSource_FileDescriptor,
     BundleSource_FileDescriptor_CafeOS,
