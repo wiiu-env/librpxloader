@@ -112,6 +112,14 @@ bool RL_RedirectContentWithFallback(const char *pathToContent);
  */
 bool RL_DisableContentRedirection();
 
+/**
+ * Unmounts the currently running bundle. This also disables the /vol/content redirection
+ *
+ * @return true if a .wuhb is running and the /vol/content was previously redirected
+ *         false if no .wuhb is running or no /vol/content redirection is active.
+ */
+bool RL_UnmountCurrentRunningBundle();
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

@@ -10,3 +10,4 @@ RL_FileClose
 RL_FileExists
 RL_RedirectContentWithFallback
 RL_DisableContentRedirection
+RL_UnmountCurrentRunningBundle
