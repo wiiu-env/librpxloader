@@ -1,4 +1,4 @@
-FROM wiiuenv/devkitppc:20210920
+FROM wiiuenv/devkitppc:20220212
 
 WORKDIR tmp_build
 COPY . .
