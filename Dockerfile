@@ -1,8 +1,8 @@
-FROM wiiuenv/devkitppc:20220212
+FROM wiiuenv/devkitppc:20220417
 
 WORKDIR tmp_build
 COPY . .
-RUN make clean && make && mkdir -p /artifacts/wums && cp -r lib /artifacts/wums && cp -r include /artifacts/wums && cp -r share /artifacts/wums
+RUN make clean && make && mkdir -p /artifacts/wums && cp -r lib /artifacts/wums && cp -r include /artifacts/wums
 WORKDIR /artifacts
 
 FROM scratch
