@@ -99,10 +99,10 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 .PHONY: all dist-bin dist-src dist install clean
 
 #---------------------------------------------------------------------------------
-all: lib/librpxloader.a share/librpxloader.ld
+all: lib/librpxloader.a
 
 dist-bin: all
-	@tar --exclude=*~ -cjf librpxloader-$(VERSION).tar.bz2 include lib share
+	@tar --exclude=*~ -cjf librpxloader-$(VERSION).tar.bz2 include lib
 
 dist-src:
 	@tar --exclude=*~ -cjf librpxloader-src-$(VERSION).tar.bz2 include source Makefile
@@ -115,15 +115,9 @@ install: dist-bin
 
 lib:
 	@[ -d $@ ] || mkdir -p $@
-    
-share:
-	@[ -d $@ ] || mkdir -p $@
 
 release:
 	@[ -d $@ ] || mkdir -p $@
-    
-share/librpxloader.ld :$(SOURCES) $(INCLUDES) | share release
-	mv $(CURDIR)/release/*.ld $(CURDIR)/$@
 
 lib/librpxloader.a :$(SOURCES) $(INCLUDES) | lib release
 	@$(MAKE) BUILD=release OUTPUT=$(CURDIR)/$@ \
