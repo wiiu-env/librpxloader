@@ -6,20 +6,16 @@ Requires [wut](https://github.com/devkitPro/wut) for building.
 Install via `make install`.
 
 ## Usage
-When linking, make sure to add the `librpxloader.ld` file to the LDFLAGS.
 
-Example:
-```
-LDFLAGS	=	-g $(ARCH) $(RPXSPECS) -Wl,-Map,$(notdir $*.map) -T$(WUMS_ROOT)/share/librpxloader.ld
-```
-
-Make also sure to define 
+Make sure to define 
 ```
 WUMS_ROOT := $(DEVKITPRO)/wums
 ```
 and add `-lrpxloader` to `LIBS` and `$(WUMS_ROOT)` to `LIBDIRS`.
 
-After that you can simply include `<rpxloader.h>` to get access to the RPXLoader functions.
+After that you can simply include `<rpxloader/rpxloader.h>` to get access to the RPXLoader functions.
+
+To init the library call `RPXLoader_Init()` and check for the `RPX_LOADER_RESULT_SUCCESS` return code.
 
 ## Use this lib in Dockerfiles.
 A prebuilt version of this lib can found on dockerhub. To use it for your projects, add this to your Dockerfile.
