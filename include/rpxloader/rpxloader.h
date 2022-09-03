@@ -63,7 +63,7 @@ RPXLoaderStatus RPXLoader_GetVersion(uint32_t *outVersion);
  * @param path: path to the .rpx/.wuhb that should be loaded.
  * @return  RPX_LOADER_RESULT_SUCCESS:              Loading of the next RPX will be redirected. <br>
  *          RPX_LOADER_RESULT_LIB_UNINITIALIZED:    Library was not initialized. Call RPXLoader_InitLibrary() before using this function.<br>
- *          RPX_LOADER_RESULT_UNSUPPORTED_COMMAND:  Command not supported by the currently loaded RPXLoaderModule version.<br><br>
+ *          RPX_LOADER_RESULT_UNSUPPORTED_COMMAND:  Command not supported by the currently loaded RPXLoaderModule version.<br>
  *          RPX_LOADER_RESULT_INVALID_ARGUMENT:     Given path was NULL<br>
  *          RPX_LOADER_RESULT_UNKNOWN_ERROR:        Unexpected error.<br>
  */
