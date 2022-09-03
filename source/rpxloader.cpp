@@ -36,7 +36,7 @@ const char *RPXLoader_GetStatusStr(RPXLoaderStatus status) {
         case RPX_LOADER_RESULT_UNSUPPORTED_COMMAND:
             return "RPX_LOADER_RESULT_UNSUPPORTED_COMMAND";
     }
-    return "MOCHA_RESULT_UNKNOWN_ERROR";
+    return "RPX_LOADER_RESULT_UNKNOWN_ERROR";
 }
 
 static RPXLoaderVersion rpxLoaderVersion = RPX_LOADER_MODULE_VERSION_ERROR;
