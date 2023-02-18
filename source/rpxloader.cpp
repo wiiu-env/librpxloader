@@ -5,11 +5,11 @@
 
 static OSDynLoad_Module sModuleHandle = nullptr;
 
-static RPXLoaderVersion (*sRLGetVersion)() = nullptr;
+static RPXLoaderVersion (*sRLGetVersion)(uint32_t *version) = nullptr;
 
-static RPXLoaderStatus (*sRLPrepareLaunchFromSD)()    = nullptr;
-static RPXLoaderStatus (*sRLLaunchPreparedHomebrew)() = nullptr;
-static RPXLoaderStatus (*sRLLaunchHomebrew)()         = nullptr;
+static RPXLoaderStatus (*sRLPrepareLaunchFromSD)(const char *path)   = nullptr;
+static RPXLoaderStatus (*sRLLaunchPreparedHomebrew)()                = nullptr;
+static RPXLoaderStatus (*sRLLaunchHomebrew)(const char *bundle_path) = nullptr;
 
 static RPXLoaderStatus (*sRLDisableContentRedirection)()   = nullptr;
 static RPXLoaderStatus (*sRLEnableContentRedirection)()    = nullptr;
@@ -92,7 +92,6 @@ RPXLoaderStatus RPXLoader_DeInitLibrary() {
     return RPX_LOADER_RESULT_SUCCESS;
 }
 
-RPXLoaderStatus GetVersion(uint32_t *version);
 RPXLoaderStatus RPXLoader_GetVersion(uint32_t *version) {
     if (sRLGetVersion == nullptr) {
         if (OSDynLoad_Acquire("homebrew_rpx_loader", &sModuleHandle) != OS_DYNLOAD_OK) {
@@ -109,10 +108,9 @@ RPXLoaderStatus RPXLoader_GetVersion(uint32_t *version) {
         return RPX_LOADER_RESULT_INVALID_ARGUMENT;
     }
 
-    return reinterpret_cast<decltype(&GetVersion)>(sRLGetVersion)(version);
+    return reinterpret_cast<decltype(&RPXLoader_GetVersion)>(sRLGetVersion)(version);
 }
 
-RPXLoaderStatus PrepareLaunchFromSD(const char *bundle_path);
 RPXLoaderStatus RPXLoader_PrepareLaunchFromSD(const char *path) {
     if (rpxLoaderVersion == RPX_LOADER_MODULE_VERSION_ERROR) {
         return RPX_LOADER_RESULT_LIB_UNINITIALIZED;
@@ -123,10 +121,9 @@ RPXLoaderStatus RPXLoader_PrepareLaunchFromSD(const char *path) {
     if (path == nullptr) {
         return RPX_LOADER_RESULT_INVALID_ARGUMENT;
     }
-    return reinterpret_cast<decltype(&PrepareLaunchFromSD)>(sRLPrepareLaunchFromSD)(path);
+    return reinterpret_cast<decltype(&RPXLoader_PrepareLaunchFromSD)>(sRLPrepareLaunchFromSD)(path);
 }
 
-RPXLoaderStatus LaunchPreparedHomebrew();
 RPXLoaderStatus RPXLoader_LaunchPreparedHomebrew() {
     if (rpxLoaderVersion == RPX_LOADER_MODULE_VERSION_ERROR) {
         return RPX_LOADER_RESULT_LIB_UNINITIALIZED;
@@ -134,10 +131,9 @@ RPXLoaderStatus RPXLoader_LaunchPreparedHomebrew() {
     if (sRLLaunchPreparedHomebrew == nullptr || rpxLoaderVersion < 1) {
         return RPX_LOADER_RESULT_UNSUPPORTED_COMMAND;
     }
-    return reinterpret_cast<decltype(&LaunchPreparedHomebrew)>(sRLLaunchPreparedHomebrew)();
+    return reinterpret_cast<decltype(&RPXLoader_LaunchPreparedHomebrew)>(sRLLaunchPreparedHomebrew)();
 }
 
-RPXLoaderStatus LaunchHomebrew();
 RPXLoaderStatus RPXLoader_LaunchHomebrew(const char *bundle_path) {
     if (rpxLoaderVersion == RPX_LOADER_MODULE_VERSION_ERROR) {
         return RPX_LOADER_RESULT_LIB_UNINITIALIZED;
@@ -148,7 +144,6 @@ RPXLoaderStatus RPXLoader_LaunchHomebrew(const char *bundle_path) {
     return reinterpret_cast<decltype(&RPXLoader_LaunchHomebrew)>(sRLLaunchHomebrew)(bundle_path);
 }
 
-RPXLoaderStatus EnableContentRedirection();
 RPXLoaderStatus RPXLoader_EnableContentRedirection() {
     if (rpxLoaderVersion == RPX_LOADER_MODULE_VERSION_ERROR) {
         return RPX_LOADER_RESULT_LIB_UNINITIALIZED;
@@ -157,11 +152,9 @@ RPXLoaderStatus RPXLoader_EnableContentRedirection() {
         return RPX_LOADER_RESULT_UNSUPPORTED_COMMAND;
     }
 
-    return reinterpret_cast<decltype(&EnableContentRedirection)>(sRLEnableContentRedirection)();
+    return reinterpret_cast<decltype(&RPXLoader_EnableContentRedirection)>(sRLEnableContentRedirection)();
 }
 
-
-RPXLoaderStatus DisableContentRedirection();
 RPXLoaderStatus RPXLoader_DisableContentRedirection() {
     if (rpxLoaderVersion == RPX_LOADER_MODULE_VERSION_ERROR) {
         return RPX_LOADER_RESULT_LIB_UNINITIALIZED;
@@ -169,10 +162,9 @@ RPXLoaderStatus RPXLoader_DisableContentRedirection() {
     if (sRLDisableContentRedirection == nullptr || rpxLoaderVersion < 1) {
         return RPX_LOADER_RESULT_UNSUPPORTED_COMMAND;
     }
-    return reinterpret_cast<decltype(&DisableContentRedirection)>(sRLDisableContentRedirection)();
+    return reinterpret_cast<decltype(&RPXLoader_DisableContentRedirection)>(sRLDisableContentRedirection)();
 }
 
-RPXLoaderStatus UnmountCurrentRunningBundle();
 RPXLoaderStatus RPXLoader_UnmountCurrentRunningBundle() {
     if (rpxLoaderVersion == RPX_LOADER_MODULE_VERSION_ERROR) {
         return RPX_LOADER_RESULT_LIB_UNINITIALIZED;
@@ -181,5 +173,5 @@ RPXLoaderStatus RPXLoader_UnmountCurrentRunningBundle() {
         return RPX_LOADER_RESULT_UNSUPPORTED_COMMAND;
     }
 
-    return reinterpret_cast<decltype(&UnmountCurrentRunningBundle)>(sRLUnmountCurrentRunningBundle)();
+    return reinterpret_cast<decltype(&RPXLoader_UnmountCurrentRunningBundle)>(sRLUnmountCurrentRunningBundle)();
 }
