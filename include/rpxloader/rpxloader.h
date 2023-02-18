@@ -59,6 +59,8 @@ RPXLoaderStatus RPXLoader_GetVersion(uint32_t *outVersion);
  * The path is **relative** to the root of the given target device.<br>
  * <br>
  * To launch the prepared RPX call RPXLoader_LaunchPreparedHomebrew if this call was successful.<br>
+ * <br>
+ * Requires API version 1 or higher. <br>
  *
  * @param path: path to the .rpx/.wuhb that should be loaded.
  * @return  RPX_LOADER_RESULT_SUCCESS:              Loading of the next RPX will be redirected. <br>
@@ -74,6 +76,8 @@ RPXLoaderStatus RPXLoader_PrepareLaunchFromSD(const char *path);
  * Works similar similar to the SYSLaunch* functions.<br>
  * <br>
  * see: `RPXLoader_LaunchHomebrew` to prepare and launch a RPX in one command. <br>
+ * <br>
+ * Requires API version 1 or higher. <br>
  *
  * @return RPX_LOADER_RESULT_SUCCESS:               App is launching<br>
  *         RPX_LOADER_RESULT_LIB_UNINITIALIZED:     Library was not initialized. Call RPX_LOADER_InitLibrary() before using this function.<br>
@@ -87,7 +91,10 @@ RPXLoaderStatus RPXLoader_LaunchPreparedHomebrew();
  * Launches a given .rpx/.wuhb by launching a wrapper application and replacing the RPX on the fly. <br>
  * See RPXLoader_PrepareLaunchFromSD for more information. <br>
  * <br>
- * Note: Combines RPXLoader_PrepareLaunchFromSD and RPXLoader_LaunchPreparedHomebrew.
+ * Note: Combines RPXLoader_PrepareLaunchFromSD and RPXLoader_LaunchPreparedHomebrew. <br>
+ * <br>
+ * Requires API version 1 or higher. <br>
+ *
  * @param bundle_path path to the .rpx/.wuhb that should be loaded.
  * @return RPX_LOADER_RESULT_SUCCESS:               Requested RPX/WUHB will be launched<br>
  *         RPX_LOADER_RESULT_LIB_UNINITIALIZED:     Library was not initialized. Call RPXLoader_InitLibrary() before using this function.<br>
@@ -99,7 +106,9 @@ RPXLoaderStatus RPXLoader_LaunchPreparedHomebrew();
 RPXLoaderStatus RPXLoader_LaunchHomebrew(const char *bundle_path);
 
 /**
- * Enables the /vol/content redirection (is enabled by default if a .wuhb is running)
+ * Enables the /vol/content redirection (is enabled by default if a .wuhb is running) <br>
+ * <br>
+ * Requires API version 1 or higher. <br>
  *
  * @return  RPX_LOADER_RESULT_SUCCESS:              /vol/content has been enabled or was already enabled. <br>
  *          RPX_LOADER_RESULT_LIB_UNINITIALIZED:    "RPXLoader_Init()" was not called. <br>
@@ -108,7 +117,9 @@ RPXLoaderStatus RPXLoader_LaunchHomebrew(const char *bundle_path);
 RPXLoaderStatus RPXLoader_EnableContentRedirection();
 
 /**
- * Disables the /vol/content redirection
+ * Disables the /vol/content redirection <br>
+ * <br>
+ * Requires API version 1 or higher. <br>
  *
  * @return  RPX_LOADER_RESULT_SUCCESS:              /vol/content has been disabled or was already disabled. <br>
  *          RPX_LOADER_RESULT_LIB_UNINITIALIZED:    "RPXLoader_Init()" was not called. <br>
@@ -117,7 +128,9 @@ RPXLoaderStatus RPXLoader_EnableContentRedirection();
 RPXLoaderStatus RPXLoader_DisableContentRedirection();
 
 /**
- * Unmounts the currently running bundle. This also disables the /vol/content redirection
+ * Unmounts the currently running bundle. This also disables the /vol/content redirection <br>
+ * <br>
+ * Requires API version 1 or higher. <br>
  *
  * @return  RPX_LOADER_RESULT_SUCCESS:              /vol/content has been unmounted or was not previously mounted.<br>
  *          RPX_LOADER_RESULT_LIB_UNINITIALIZED:    "RPXLoader_Init()" was not called.<br>
