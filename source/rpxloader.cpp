@@ -145,7 +145,7 @@ RPXLoaderStatus RPXLoader_LaunchHomebrew(const char *bundle_path) {
     if (sRLLaunchHomebrew == nullptr || rpxLoaderVersion < 1) {
         return RPX_LOADER_RESULT_UNSUPPORTED_COMMAND;
     }
-    return reinterpret_cast<decltype(&LaunchHomebrew)>(sRLLaunchHomebrew)();
+    return reinterpret_cast<decltype(&RPXLoader_LaunchHomebrew)>(sRLLaunchHomebrew)(bundle_path);
 }
 
 RPXLoaderStatus EnableContentRedirection();
