@@ -15,6 +15,7 @@ typedef enum RPXLoaderStatus {
     RPX_LOADER_RESULT_LIB_UNINITIALIZED       = -0x20,
     RPX_LOADER_RESULT_MODULE_NOT_FOUND        = -0x30,
     RPX_LOADER_RESULT_MODULE_MISSING_EXPORT   = -0x31,
+    RPX_LOADER_RESULT_NOT_AVAILABLE           = -0x40,
     RPX_LOADER_RESULT_UNKNOWN_ERROR           = -0x100,
 } RPXLoaderStatus;
 
@@ -56,7 +57,7 @@ RPXLoaderStatus RPXLoader_GetVersion(uint32_t *outVersion);
  * Sets the .rpx or .wuhb that will be loaded the next time the homebrew wrapper application is launched (e.g. Health & Safety or Daily Log).<br>
  * When a .wuhb will be loaded, accesses to /vol/content will be redirected to the .wuhb, /vol/save will be redirected to the sd card.<br>
  * <br>
- * The path is **relative** to the root of the given target device.<br>
+ * The path is **relative** to the root of the sd card<br>
  * <br>
  * To launch the prepared RPX call RPXLoader_LaunchPreparedHomebrew if this call was successful.<br>
  * <br>
@@ -137,6 +138,23 @@ RPXLoaderStatus RPXLoader_DisableContentRedirection();
  *          RPX_LOADER_RESULT_UNKNOWN_ERROR:        Unable to unmount the currently running bundle.<br>
 */
 RPXLoaderStatus RPXLoader_UnmountCurrentRunningBundle();
+
+/**
+ * Returns the path of the currently running executable <br>
+ * This function is not guaranteed to succeed, it only works if the executable is loaded via the RPXLoadingModule <br>
+ * The returned path is relative to the root of the sd card.  <br>
+ * <br>
+ * Requires API version 2 or higher. <br>
+ *
+ * @param outBuffer buffer where the result will be stored
+ * @param outSize size of outBuffer
+ * @return  RPX_LOADER_RESULT_SUCCESS:              The path of the currently running executable has been written to outBuffer
+ *          RPX_LOADER_RESULT_UNSUPPORTED_COMMAND:  Command not supported by the currently loaded RPXLoaderModule version.<br>
+ *          RPX_LOADER_RESULT_INVALID_ARGUMENT:     The given outBuffer was NULL or outSize was 0 <br>
+ *          RPX_LOADER_RESULT_LIB_UNINITIALIZED:    "RPXLoader_Init()" was not called.<br>
+ *          RPX_LOADER_RESULT_NOT_AVAILABLE:        The path is not available.<br>
+*/
+RPXLoaderStatus RPXLoader_GetPathOfRunningExecutable(char *outBuffer, uint32_t outSize);
 
 #ifdef __cplusplus
 } // extern "C"

@@ -11,9 +11,10 @@ static RPXLoaderStatus (*sRLPrepareLaunchFromSD)(const char *path)   = nullptr;
 static RPXLoaderStatus (*sRLLaunchPreparedHomebrew)()                = nullptr;
 static RPXLoaderStatus (*sRLLaunchHomebrew)(const char *bundle_path) = nullptr;
 
-static RPXLoaderStatus (*sRLDisableContentRedirection)()   = nullptr;
-static RPXLoaderStatus (*sRLEnableContentRedirection)()    = nullptr;
-static RPXLoaderStatus (*sRLUnmountCurrentRunningBundle)() = nullptr;
+static RPXLoaderStatus (*sRLDisableContentRedirection)()                                    = nullptr;
+static RPXLoaderStatus (*sRLEnableContentRedirection)()                                     = nullptr;
+static RPXLoaderStatus (*sRLUnmountCurrentRunningBundle)()                                  = nullptr;
+static RPXLoaderStatus (*sRL_GetPathOfRunningExecutable)(char *outBuffer, uint32_t outSize) = nullptr;
 
 const char *RPXLoader_GetStatusStr(RPXLoaderStatus status) {
     switch (status) {
@@ -35,6 +36,8 @@ const char *RPXLoader_GetStatusStr(RPXLoaderStatus status) {
             return "RPX_LOADER_RESULT_UNSUPPORTED_API_VERSION";
         case RPX_LOADER_RESULT_UNSUPPORTED_COMMAND:
             return "RPX_LOADER_RESULT_UNSUPPORTED_COMMAND";
+        case RPX_LOADER_RESULT_NOT_AVAILABLE:
+            return "RPX_LOADER_RESULT_NOT_AVAILABLE";
     }
     return "RPX_LOADER_RESULT_UNKNOWN_ERROR";
 }
@@ -83,6 +86,11 @@ RPXLoaderStatus RPXLoader_InitLibrary() {
     if (OSDynLoad_FindExport(sModuleHandle, FALSE, "RL_UnmountCurrentRunningBundle", (void **) &sRLUnmountCurrentRunningBundle) != OS_DYNLOAD_OK) {
         DEBUG_FUNCTION_LINE_WARN("FindExport RL_UnmountCurrentRunningBundle failed.");
         sRLUnmountCurrentRunningBundle = nullptr;
+    }
+
+    if (OSDynLoad_FindExport(sModuleHandle, FALSE, "RL_GetPathOfRunningExecutable", (void **) &sRL_GetPathOfRunningExecutable) != OS_DYNLOAD_OK) {
+        DEBUG_FUNCTION_LINE_WARN("FindExport RL_GetPathOfRunningExecutable failed.");
+        sRL_GetPathOfRunningExecutable = nullptr;
     }
 
     return RPX_LOADER_RESULT_SUCCESS;
@@ -174,4 +182,15 @@ RPXLoaderStatus RPXLoader_UnmountCurrentRunningBundle() {
     }
 
     return reinterpret_cast<decltype(&RPXLoader_UnmountCurrentRunningBundle)>(sRLUnmountCurrentRunningBundle)();
+}
+
+RPXLoaderStatus RPXLoader_GetPathOfRunningExecutable(char *outBuffer, uint32_t outSize) {
+    if (rpxLoaderVersion == RPX_LOADER_MODULE_VERSION_ERROR) {
+        return RPX_LOADER_RESULT_LIB_UNINITIALIZED;
+    }
+    if (sRL_GetPathOfRunningExecutable == nullptr || rpxLoaderVersion < 2) {
+        return RPX_LOADER_RESULT_UNSUPPORTED_COMMAND;
+    }
+
+    return reinterpret_cast<decltype(&RPXLoader_GetPathOfRunningExecutable)>(sRL_GetPathOfRunningExecutable)(outBuffer, outSize);
 }
