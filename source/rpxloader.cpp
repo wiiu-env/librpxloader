@@ -50,7 +50,7 @@ RPXLoaderStatus RPXLoader_InitLibrary() {
         return RPX_LOADER_RESULT_MODULE_NOT_FOUND;
     }
 
-    if (OSDynLoad_FindExport(sModuleHandle, FALSE, "RL_GetVersion", (void **) &sRLGetVersion) != OS_DYNLOAD_OK) {
+    if (OSDynLoad_FindExport(sModuleHandle, OS_DYNLOAD_EXPORT_FUNC, "RL_GetVersion", (void **) &sRLGetVersion) != OS_DYNLOAD_OK) {
         DEBUG_FUNCTION_LINE_ERR("FindExport RL_GetVersion failed.");
         return RPX_LOADER_RESULT_MODULE_MISSING_EXPORT;
     }
@@ -60,35 +60,35 @@ RPXLoaderStatus RPXLoader_InitLibrary() {
         return RPX_LOADER_RESULT_UNSUPPORTED_API_VERSION;
     }
 
-    if (OSDynLoad_FindExport(sModuleHandle, FALSE, "RL_PrepareLaunchFromSD", (void **) &sRLPrepareLaunchFromSD) != OS_DYNLOAD_OK) {
+    if (OSDynLoad_FindExport(sModuleHandle, OS_DYNLOAD_EXPORT_FUNC, "RL_PrepareLaunchFromSD", (void **) &sRLPrepareLaunchFromSD) != OS_DYNLOAD_OK) {
         DEBUG_FUNCTION_LINE_WARN("FindExport RL_PrepareLaunchFromSD failed.");
         sRLPrepareLaunchFromSD = nullptr;
     }
-    if (OSDynLoad_FindExport(sModuleHandle, FALSE, "RL_LaunchPreparedHomebrew", (void **) &sRLLaunchPreparedHomebrew) != OS_DYNLOAD_OK) {
+    if (OSDynLoad_FindExport(sModuleHandle, OS_DYNLOAD_EXPORT_FUNC, "RL_LaunchPreparedHomebrew", (void **) &sRLLaunchPreparedHomebrew) != OS_DYNLOAD_OK) {
         DEBUG_FUNCTION_LINE_WARN("FindExport RL_LaunchPreparedHomebrew failed.");
         sRLLaunchPreparedHomebrew = nullptr;
     }
-    if (OSDynLoad_FindExport(sModuleHandle, FALSE, "RL_LaunchHomebrew", (void **) &sRLLaunchHomebrew) != OS_DYNLOAD_OK) {
+    if (OSDynLoad_FindExport(sModuleHandle, OS_DYNLOAD_EXPORT_FUNC, "RL_LaunchHomebrew", (void **) &sRLLaunchHomebrew) != OS_DYNLOAD_OK) {
         DEBUG_FUNCTION_LINE_WARN("FindExport RL_LaunchHomebrew failed.");
         sRLLaunchHomebrew = nullptr;
     }
 
-    if (OSDynLoad_FindExport(sModuleHandle, FALSE, "RL_DisableContentRedirection", (void **) &sRLDisableContentRedirection) != OS_DYNLOAD_OK) {
+    if (OSDynLoad_FindExport(sModuleHandle, OS_DYNLOAD_EXPORT_FUNC, "RL_DisableContentRedirection", (void **) &sRLDisableContentRedirection) != OS_DYNLOAD_OK) {
         DEBUG_FUNCTION_LINE_WARN("FindExport RL_DisableContentRedirection failed.");
         sRLDisableContentRedirection = nullptr;
     }
 
-    if (OSDynLoad_FindExport(sModuleHandle, FALSE, "RL_EnableContentRedirection", (void **) &sRLEnableContentRedirection) != OS_DYNLOAD_OK) {
+    if (OSDynLoad_FindExport(sModuleHandle, OS_DYNLOAD_EXPORT_FUNC, "RL_EnableContentRedirection", (void **) &sRLEnableContentRedirection) != OS_DYNLOAD_OK) {
         DEBUG_FUNCTION_LINE_WARN("FindExport RL_EnableContentRedirection failed.");
         sRLEnableContentRedirection = nullptr;
     }
 
-    if (OSDynLoad_FindExport(sModuleHandle, FALSE, "RL_UnmountCurrentRunningBundle", (void **) &sRLUnmountCurrentRunningBundle) != OS_DYNLOAD_OK) {
+    if (OSDynLoad_FindExport(sModuleHandle, OS_DYNLOAD_EXPORT_FUNC, "RL_UnmountCurrentRunningBundle", (void **) &sRLUnmountCurrentRunningBundle) != OS_DYNLOAD_OK) {
         DEBUG_FUNCTION_LINE_WARN("FindExport RL_UnmountCurrentRunningBundle failed.");
         sRLUnmountCurrentRunningBundle = nullptr;
     }
 
-    if (OSDynLoad_FindExport(sModuleHandle, FALSE, "RL_GetPathOfRunningExecutable", (void **) &sRL_GetPathOfRunningExecutable) != OS_DYNLOAD_OK) {
+    if (OSDynLoad_FindExport(sModuleHandle, OS_DYNLOAD_EXPORT_FUNC, "RL_GetPathOfRunningExecutable", (void **) &sRL_GetPathOfRunningExecutable) != OS_DYNLOAD_OK) {
         DEBUG_FUNCTION_LINE_WARN("FindExport RL_GetPathOfRunningExecutable failed.");
         sRL_GetPathOfRunningExecutable = nullptr;
     }
@@ -107,7 +107,7 @@ RPXLoaderStatus RPXLoader_GetVersion(uint32_t *version) {
             return RPX_LOADER_RESULT_MODULE_NOT_FOUND;
         }
 
-        if (OSDynLoad_FindExport(sModuleHandle, FALSE, "RL_GetVersion", (void **) &sRLGetVersion) != OS_DYNLOAD_OK) {
+        if (OSDynLoad_FindExport(sModuleHandle, OS_DYNLOAD_EXPORT_FUNC, "RL_GetVersion", (void **) &sRLGetVersion) != OS_DYNLOAD_OK) {
             DEBUG_FUNCTION_LINE_WARN("FindExport RL_GetVersion failed.");
             return RPX_LOADER_RESULT_MODULE_MISSING_EXPORT;
         }
