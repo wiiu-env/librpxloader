@@ -15,6 +15,7 @@ static RPXLoaderStatus (*sRLDisableContentRedirection)()                        
 static RPXLoaderStatus (*sRLEnableContentRedirection)()                                     = nullptr;
 static RPXLoaderStatus (*sRLUnmountCurrentRunningBundle)()                                  = nullptr;
 static RPXLoaderStatus (*sRL_GetPathOfRunningExecutable)(char *outBuffer, uint32_t outSize) = nullptr;
+static RPXLoaderStatus (*sRL_GetPathOfSaveRedirection)(char *outBuffer, uint32_t outSize)   = nullptr;
 
 const char *RPXLoader_GetStatusStr(RPXLoaderStatus status) {
     switch (status) {
@@ -91,6 +92,11 @@ RPXLoaderStatus RPXLoader_InitLibrary() {
     if (OSDynLoad_FindExport(sModuleHandle, OS_DYNLOAD_EXPORT_FUNC, "RL_GetPathOfRunningExecutable", (void **) &sRL_GetPathOfRunningExecutable) != OS_DYNLOAD_OK) {
         DEBUG_FUNCTION_LINE_WARN("FindExport RL_GetPathOfRunningExecutable failed.");
         sRL_GetPathOfRunningExecutable = nullptr;
+    }
+
+    if (OSDynLoad_FindExport(sModuleHandle, OS_DYNLOAD_EXPORT_FUNC, "RL_GetPathOfSaveRedirection", (void **) &sRL_GetPathOfSaveRedirection) != OS_DYNLOAD_OK) {
+        DEBUG_FUNCTION_LINE_WARN("FindExport RL_GetPathOfRunningExecutable failed.");
+        sRL_GetPathOfSaveRedirection = nullptr;
     }
 
     return RPX_LOADER_RESULT_SUCCESS;
@@ -193,4 +199,15 @@ RPXLoaderStatus RPXLoader_GetPathOfRunningExecutable(char *outBuffer, uint32_t o
     }
 
     return reinterpret_cast<decltype(&RPXLoader_GetPathOfRunningExecutable)>(sRL_GetPathOfRunningExecutable)(outBuffer, outSize);
+}
+
+RPXLoaderStatus RPXLoader_GetPathOfSaveRedirection(char *outBuffer, uint32_t outSize) {
+    if (rpxLoaderVersion == RPX_LOADER_MODULE_VERSION_ERROR) {
+        return RPX_LOADER_RESULT_LIB_UNINITIALIZED;
+    }
+    if (sRL_GetPathOfSaveRedirection == nullptr || rpxLoaderVersion < 3) {
+        return RPX_LOADER_RESULT_UNSUPPORTED_COMMAND;
+    }
+
+    return reinterpret_cast<decltype(&RPXLoader_GetPathOfSaveRedirection)>(sRL_GetPathOfSaveRedirection)(outBuffer, outSize);
 }
