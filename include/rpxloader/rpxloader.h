@@ -148,13 +148,30 @@ RPXLoaderStatus RPXLoader_UnmountCurrentRunningBundle();
  *
  * @param outBuffer buffer where the result will be stored
  * @param outSize size of outBuffer
- * @return  RPX_LOADER_RESULT_SUCCESS:              The path of the currently running executable has been written to outBuffer
+ * @return  RPX_LOADER_RESULT_SUCCESS:              The path of the currently running executable has been written to outBuffer. <br>
  *          RPX_LOADER_RESULT_UNSUPPORTED_COMMAND:  Command not supported by the currently loaded RPXLoaderModule version.<br>
  *          RPX_LOADER_RESULT_INVALID_ARGUMENT:     The given outBuffer was NULL or outSize was 0 <br>
  *          RPX_LOADER_RESULT_LIB_UNINITIALIZED:    "RPXLoader_Init()" was not called.<br>
  *          RPX_LOADER_RESULT_NOT_AVAILABLE:        The path is not available.<br>
 */
 RPXLoaderStatus RPXLoader_GetPathOfRunningExecutable(char *outBuffer, uint32_t outSize);
+
+/**
+ * Returns the path currently used for /vol/save redirection <br>
+ * This function is not guaranteed to succeed, it only works if the executable is loaded via the RPXLoadingModule <br>
+ * The returned path is relative to the root of the sd card.  <br>
+ * <br>
+ * Requires API version 3 or higher. <br>
+ *
+ * @param outBuffer buffer where the result will be stored
+ * @param outSize size of outBuffer
+ * @return  RPX_LOADER_RESULT_SUCCESS:              The path of the /vol/save redirection has been written to outBuffer.<br>
+ *          RPX_LOADER_RESULT_UNSUPPORTED_COMMAND:  Command not supported by the currently loaded RPXLoaderModule version.<br>
+ *          RPX_LOADER_RESULT_INVALID_ARGUMENT:     The given outBuffer was NULL or outSize was 0 <br>
+ *          RPX_LOADER_RESULT_LIB_UNINITIALIZED:    "RPXLoader_Init()" was not called.<br>
+ *          RPX_LOADER_RESULT_NOT_AVAILABLE:        The path is not available.<br>
+*/
+RPXLoaderStatus RPXLoader_GetPathOfSaveRedirection(char *outBuffer, uint32_t outSize);
 
 #ifdef __cplusplus
 } // extern "C"
