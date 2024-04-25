@@ -95,7 +95,7 @@ RPXLoaderStatus RPXLoader_InitLibrary() {
     }
 
     if (OSDynLoad_FindExport(sModuleHandle, OS_DYNLOAD_EXPORT_FUNC, "RL_GetPathOfSaveRedirection", (void **) &sRL_GetPathOfSaveRedirection) != OS_DYNLOAD_OK) {
-        DEBUG_FUNCTION_LINE_WARN("FindExport RL_GetPathOfRunningExecutable failed.");
+        DEBUG_FUNCTION_LINE_WARN("FindExport RL_GetPathOfSaveRedirection failed.");
         sRL_GetPathOfSaveRedirection = nullptr;
     }
 
